@@ -1,0 +1,81 @@
+#include <stdio.h>
+#include <stdlib.h>
+#define Max 50
+
+int queue[Max];
+int front = -1;
+int rear = -1;
+
+void enqueue(int x) {
+    if (front == -1 && rear == -1) {
+        front = rear = 0;
+        queue[rear] = x;
+    } else if ((rear + 1) % Max == front) {
+        printf("Queue full\n");
+    } else {
+        rear = (rear + 1) % Max;
+        queue[rear] = x;
+    }9
+}
+
+void dequeue() {
+    if (front == -1) {
+        printf("Queue empty\n");
+    } else {
+        printf("Dequeued: %d\n", queue[front]);
+        if (front == rear) {
+            front = rear = -1; // Queue becomes empty
+        } else {
+            front = (front + 1) % Max;
+        }
+    }
+}
+
+void display() {
+    if (front == -1) {
+        printf("Queue is empty\n");
+    } else {
+        printf("Queue elements: ");
+        int i = front;
+        while (1) {
+            printf("%d ", queue[i]);
+            if (i == rear) break; // Stop when we reach the rear
+            i = (i + 1) % Max;
+        }
+        printf("\n");
+    }
+}
+
+int main() {
+    int choice, x;
+    char ch;
+
+    do {
+        printf("1 for enqueue, 2 for dequeue, 3 for display, 0 to exit\n");
+        scanf("%d", &choice);
+
+        switch (choice) {
+            case 1:
+                printf("Enter element to enqueue: ");
+                scanf("%d", &x);
+                enqueue(x);
+                break;
+            case 2:
+                dequeue();
+                break;
+            case 3:
+                display();
+                break;
+            case 0:
+                exit(0);
+            default:
+                printf("Invalid choice\n");
+        }
+
+        printf("Press y to continue, any other key to exit: ");
+        ch = getchar(); // Clear the newline character left by scanf
+        if (ch == '\n') ch = getchar(); // Read the actual character
+    } while (ch == 'y' || ch == 'Y');
+
+    return 0;
+}
