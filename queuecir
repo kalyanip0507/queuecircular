@@ -15,7 +15,7 @@ void enqueue(int x) {
     } else {
         rear = (rear + 1) % Max;
         queue[rear] = x;
-    }9
+    }
 }
 
 void dequeue() {
